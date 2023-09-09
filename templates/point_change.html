@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Point change
+{% endblock %}
+
+
+{% block body %}
+<div class="container">
+    <h1>Point change</h1>
+    <form method="POST">
+         <div class="col-md-5">
+            <label for="point" class="form-label">Country</label>
+            <select class="form-select" id="point" required="" name="point" value="{{ piar.point if piar else '' }}">
+                <option value="">Choose...</option>
+                <option>Китай</option>
+                <option>Алматы</option>
+                <option>Атырау</option>
+            </select>
+            <div class="invalid-feedback">
+                Please select a valid country.
+            </div>
+        </div>
+        <input type="submit" class="btn btn-success" value="обновление" style="margin-top: 1rem">
+    </form>
+</div>
+
+<div class="container">
+    <hr>
+            <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Трек Номер</th>
+                      <th scope="col">Пункт</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                   {% for el in piar_data %}
+                        <tr>
+                          <td>{{ el.trackcode }}</td>
+                          <td>{{ el.point }}</td>
+                        </tr>
+                    {% endfor %}
+                  </tbody>
+            </table>
+        </div>
+{% endblock %}

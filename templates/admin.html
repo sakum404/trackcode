@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Page{% endblock %}
+
+
+{% block body %}
+    <div class="container">
+        <h1>База трек-кодов</h1>
+        {% for el in articles %}
+            <div class="alert alert-info">
+                <h2>{{ el.title }}</h2>
+                <p>{{ el.point }}</p>
+                <p><b>Дата: {{el.date.date()}}</b></p>
+                <a href="/admin/{{el.id}}" class="btn btn-warning">Открыть</a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Create Page{% endblock %}
+
+
+{% block body %}
+<div class="container">
+<!--    <form action="/upload" method="post" enctype="multipart/form-data">-->
+<!--		<label for="file">Выберите файл:</label>-->
+<!--		<input type="file" id="file" name="file" class="btn btn-primary btn-lg"><br><br>-->
+<!--		<input type="submit" value="Загрузить" class="btn btn-primary btn-lg">-->
+    <form action="/create" method="post" enctype="multipart/form-data">
+		<div class="row g-3">
+            <div class="col-sm-6">
+              <label for="title" class="form-label">Title</label>
+              <input type="text" class="form-control" id="title" placeholder="" value="" required="" name="title">
+              <div class="invalid-feedback">
+                Valid title is required.
+              </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+{% endblock %}

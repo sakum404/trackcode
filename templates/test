@@ -1,0 +1,43 @@
+
+<!--    <ul>-->
+<!--    {% if results %}-->
+<!--    <h2>Результаты поиска:</h2>-->
+<!--    <ul>-->
+<!--        {% for item in results %}-->
+<!--        <li>{{ item.trackcode }}</li>-->
+<!--        <li>{{ item.point }}</li>-->
+<!--        {% endfor %}-->
+<!--    </ul>-->
+<!--    {% endif %}-->
+<!--</ul>-->
+<!--</div>-->
+
+<!--{% endblock %}-->
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head>-->
+<!--    <title>Поиск</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <h1>Поиск</h1>-->
+<!--    <form method="POST">-->
+<!--        <input type="text" name="query" placeholder="Введите запрос" value="{{ query }}">-->
+<!--        <input type="submit" value="Поиск">-->
+<!--    </form>-->
+
+<!--    {% if results %}-->
+<!--    <h2>Результаты поиска:</h2>-->
+<!--    <ul>-->
+<!--        {% for item in results %}-->
+<!--        <li>{{ item.trackcode }}</li>-->
+<!--        <li>{{ item.point }}</li>-->
+<!--        {% endfor %}-->
+<!--    </ul>-->
+<!--    {% endif %}-->
+<!--</body>-->
+<!--</html>-->
+
+

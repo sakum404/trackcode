@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Update Page{% endblock %}
+
+
+{% block body %}
+<form method="POST" enctype="multipart/form-data">
+    <div class="container">
+        <div class="col-sm-6">
+            <label for="trackcode" class="form-label">Track code</label>
+            <input type="file" class="form-control" id="trackcode" accept=".xlsx"  name="trackcode" required>
+            <div class="invalid-feedback">
+                Valid track code is required.
+            </div>
+        </div>
+        <div class="col-md-5">
+            <label for="point" class="form-label">Country</label>
+            <select class="form-select" id="point" required="" name="point">
+                <option value="">Choose...</option>
+                <option>Китай</option>
+                <option>Алматы</option>
+                <option>Атырау</option>
+            </select>
+            <div class="invalid-feedback">
+                Please select a valid country.
+            </div>
+        </div>
+        <hr class="my-4">
+        <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
+    </div>
+</form>
+{% endblock %}

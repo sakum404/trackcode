@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Point change
+{% endblock %}
+
+
+{% block body %}
+<ul>
+    {% for piar in results %}
+        <li>Trackcode: {{ piar.trackcode }} - Point: {{ piar.point }}</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
