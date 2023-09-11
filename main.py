@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from werkzeug.utils import secure_filename
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -6,27 +6,46 @@ from sqlalchemy.orm import relationship
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import os
 from os.path import join, dirname, realpath
 import pandas as pd
 import openpyxl
-
 
 flask_sqlalchemy = SQLAlchemy
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = '1245678@22'
+
 db = SQLAlchemy(app)
 engine = create_engine('sqlite:///database.db', echo=True)
 Session = sessionmaker(bind=engine)
 session = Session()
 
+
 UPLOAD_FOLDER = 'static/files'
-app.config['UPLOAD_FOLDER'] =  UPLOAD_FOLDER
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 data = pd.read_excel('orders.xlsx')
+
+login_manager = LoginManager()
+login_manager.login_view = 'login'  # Указываем функцию, которая обрабатывает вход пользователя
+
+@login_manager.user_loader
+def load_user(user_id):
+    # Загрузка пользователя из базы данных по ID
+    return User.query.get(int(user_id))
+
+login_manager.init_app(app)
+
+class User(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    password = db.Column(db.String(120), nullable=False)
+
 class Article(db.Model):
     __tablename__ = 'article'
     id = Column(Integer, primary_key=True)
@@ -43,6 +62,28 @@ class Piar(db.Model):
     point = Column(String(100))
     article_id = Column(Integer, ForeignKey('article.id'))
     # article = db.relationship('Article', back_populates='piar')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        user = User.query.filter_by(username=username).first()
+        if user and user.password == password:
+            login_user(user)
+            return redirect(url_for('admin'))
+        else:
+            flash('Пароль или логин не правильно')
+    return render_template('login.html')
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
+
+
 
 @app.route('/', methods=['GET', 'POST'])
 def search():
@@ -61,6 +102,7 @@ def search():
 
 
 @app.route('/create', methods=['GET', 'POST'])
+@login_required
 def create():
     if request.method == 'POST':
         title = request.form['title']
@@ -73,6 +115,7 @@ def create():
 
 
 @app.route('/admin/<int:id>/trackcode', methods=['GET', 'POST'])
+@login_required
 def update(id):
     piar = Piar.query.get(id)
     if request.method == 'POST':
@@ -140,6 +183,7 @@ def view():
 
 
 @app.route('/admin/<int:id>/point_change', methods=['GET', 'POST'])
+@login_required
 def point_change(id):
     if request.method == 'POST':
         new_point = request.form['point']
@@ -165,16 +209,19 @@ def get_data(article_id):
 
 
 @app.route('/admin')
+@login_required
 def admin():
     articles = Article.query.order_by(Article.date.desc()).all()
     return render_template('admin.html', articles=articles)
 
 @app.route('/admin/<int:id>')
+@login_required
 def post_detail(id):
     article=Article.query.get(id)
     return render_template('admin_detail.html', article=article)
 
 @app.route('/admin/<int:id>/del')
+@login_required
 def post_delete(id):
     article = Article.query.get_or_404(id)
 
