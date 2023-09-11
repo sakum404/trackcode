@@ -11,6 +11,7 @@ from os.path import join, dirname, realpath
 import pandas as pd
 import openpyxl
 
+
 flask_sqlalchemy = SQLAlchemy
 
 app = Flask(__name__)
@@ -81,12 +82,21 @@ def update(id):
                 # Читаем данные из файла XLSX
                 data = pd.read_excel(file)
 
+                # Определите начальную ячейку столбца, например, 'A2'
+                start_column = 'B6'
+
+                # Фильтруем столбцы, начиная с определенной ячейки
+                data = data.loc[:, data.columns >= start_column]
+
                 # Перебираем строки в данных и обновляем таблицу в базе данных
                 for index, row in data.iterrows():
-                    trackcode = row['track-code']
-                    point = request.form['point']
-                    piar = Piar(trackcode=trackcode, point=point, article_id=id)
-                    db.session.add(piar)
+                    trackcode = row.iloc[0]  # Получаем значение из первого столбца (колонка начинается с start_column)
+
+                    # Проверяем, что значение в ячейке не является пустым
+                    if not pd.isnull(trackcode):
+                        point = request.form['point']
+                        piar = Piar(trackcode=trackcode, point=point, article_id=id)
+                        db.session.add(piar)
 
                 db.session.commit()
         except Exception as e:
@@ -95,6 +105,33 @@ def update(id):
         return redirect(url_for('admin'))
     else:
         return render_template('trackcode.html')
+
+
+
+# @app.route('/admin/<int:id>/trackcode', methods=['GET', 'POST'])
+# def update(id):
+#     piar = Piar.query.get(id)
+#     if request.method == 'POST':
+#         try:
+#             file = request.files['trackcode']  # Получаем файл XLSX из формы
+#             if file:
+#                 # Читаем данные из файла XLSX
+#                 data = pd.read_excel(file)
+#
+#                 # Перебираем строки в данных и обновляем таблицу в базе данных
+#                 for index, row in data.iterrows():
+#                     trackcode = row['track-code']
+#                     point = request.form['point']
+#                     piar = Piar(trackcode=trackcode, point=point, article_id=id)
+#                     db.session.add(piar)
+#
+#                 db.session.commit()
+#         except Exception as e:
+#             return str(e)  # Обработка ошибок загрузки файла или обновления базы данных
+#
+#         return redirect(url_for('admin'))
+#     else:
+#         return render_template('trackcode.html')
 
 
 @app.route('/view')
