@@ -94,7 +94,6 @@ def search():
         # Выполните поиск в базе данных
         # results = [item for item in piar if query.lower() in item.trackcode.lower()]
         results = db.session.query(Piar).filter(Piar.trackcode.ilike(f'%{query}%')).all()
-
         return render_template('index.html', results=results, query=query)
 
     return render_template('index.html', results=None)
@@ -198,8 +197,8 @@ def point_change(id):
             return redirect(url_for('admin'))
         except Exception as e:
             return 'Error: {}'.format(str(e))
-
-    return render_template('point_change.html')
+    piars = Piar.query.filter_by(article_id=id).all()
+    return render_template('point_change.html',piars=piars)
 
 
 def get_data(article_id):

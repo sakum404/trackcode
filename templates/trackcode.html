@@ -8,14 +8,14 @@
 <form method="POST" enctype="multipart/form-data">
     <div class="container">
         <div class="col-sm-6">
-            <label for="trackcode" class="form-label">Track code</label>
-            <input type="file" class="form-control" id="trackcode" accept=".xlsx"  name="trackcode" required>
+            <label for="trackcode" class="form-label">База трек-кодов</label>
+            <input type="file" class="form-control" id="trackcode" accept=".xlsx"  name="trackcode" required placeholder="еуые">
             <div class="invalid-feedback">
                 Valid track code is required.
             </div>
         </div>
-        <div class="col-md-5">
-            <label for="point" class="form-label">Country</label>
+        <div class="col-md-5" style='margin-top: 2rem'>
+            <label for="point" class="form-label">Пункт</label>
             <select class="form-select" id="point" required="" name="point">
                 <option value="">Choose...</option>
                 <option>Китай</option>
@@ -27,7 +27,7 @@
             </div>
         </div>
         <hr class="my-4">
-        <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
+        <button class="w-100 btn btn-primary btn-lg" type="submit">Добавить</button>
     </div>
 </form>
 {% endblock %}

@@ -6,21 +6,11 @@
 
 {% block body %}
 <div class="container">
-<!--    <form action="/upload" method="post" enctype="multipart/form-data">-->
-<!--		<label for="file">Выберите файл:</label>-->
-<!--		<input type="file" id="file" name="file" class="btn btn-primary btn-lg"><br><br>-->
-<!--		<input type="submit" value="Загрузить" class="btn btn-primary btn-lg">-->
     <form action="/create" method="post" enctype="multipart/form-data">
-		<div class="row g-3">
-            <div class="col-sm-6">
-              <label for="title" class="form-label">Title</label>
-              <input type="text" class="form-control" id="title" placeholder="" value="" required="" name="title">
-              <div class="invalid-feedback">
-                Valid title is required.
-              </div>
-            </div>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Введите название трек-кодов" aria-label="Введите название трек-кодов" aria-describedby="button-addon2" name="title">
+          <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Добавить</button>
         </div>
-
     </form>
 </div>
 {% endblock %}
