@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Item_name Page{% endblock %}
+
+
+{% block body %}
+<div class="container">
+    <form action="/item_name" method="post" enctype="multipart/form-data">
+		<div class="row g-3">
+            <div class="col-sm-6">
+
+              <input type="text" class="form-control" id="title" placeholder="Введите название товара" value="" required="" name="item_name">
+              <div class="invalid-feedback">
+                Valid title is required.
+              </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+{% endblock %}
