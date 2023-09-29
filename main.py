@@ -61,7 +61,7 @@ class Piar(db.Model):
     trackcode = Column(String(100))
     point = Column(String(100))
     article_id = Column(Integer, ForeignKey('article.id'))
-    # article = db.relationship('Article', back_populates='piar')
+    item_name = Column(String(100))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -98,6 +98,22 @@ def search():
 
     return render_template('index.html', results=None)
 
+
+@app.route('/item_name', methods=['GET', 'POST'])
+def item_name():
+    if request.method == 'POST':
+        trackcode = request.form['trackcode']
+        item_name = request.form['item_name']
+
+        # Найдите запись в базе данных с соответствующим trackcode
+        piar = Piar.query.filter_by(trackcode=trackcode).first()
+
+        if piar:
+            piar.item_name = item_name
+            db.session.commit()
+
+        return redirect(url_for('search'))
+    return render_template('item_name.html')
 
 
 @app.route('/create', methods=['GET', 'POST'])
@@ -150,40 +166,10 @@ def update(id):
 
 
 
-# @app.route('/admin/<int:id>/trackcode', methods=['GET', 'POST'])
-# def update(id):
-#     piar = Piar.query.get(id)
-#     if request.method == 'POST':
-#         try:
-#             file = request.files['trackcode']  # Получаем файл XLSX из формы
-#             if file:
-#                 # Читаем данные из файла XLSX
-#                 data = pd.read_excel(file)
-#
-#                 # Перебираем строки в данных и обновляем таблицу в базе данных
-#                 for index, row in data.iterrows():
-#                     trackcode = row['track-code']
-#                     point = request.form['point']
-#                     piar = Piar(trackcode=trackcode, point=point, article_id=id)
-#                     db.session.add(piar)
-#
-#                 db.session.commit()
-#         except Exception as e:
-#             return str(e)  # Обработка ошибок загрузки файла или обновления базы данных
-#
-#         return redirect(url_for('admin'))
-#     else:
-#         return render_template('trackcode.html')
-
-
-@app.route('/view')
-def view():
-    return render_template('view.html')
-
-
 @app.route('/admin/<int:id>/point_change', methods=['GET', 'POST'])
 @login_required
 def point_change(id):
+    article = Article.query.get(id)
     if request.method == 'POST':
         new_point = request.form['point']
 
@@ -198,7 +184,7 @@ def point_change(id):
         except Exception as e:
             return 'Error: {}'.format(str(e))
     piars = Piar.query.filter_by(article_id=id).all()
-    return render_template('point_change.html',piars=piars)
+    return render_template('point_change.html',piars=piars, article=article)
 
 
 def get_data(article_id):

@@ -21,9 +21,29 @@
                 Please select a valid country.
             </div>
         </div>
-        <input type="submit" class="btn btn-success" value="обновление" style="margin-top: 1rem">
+        <input type="submit" class="btn btn-success" value="Обновить" style="margin-top: 1rem">
+        <button type="button"
+               class="btn btn-danger mt-3"
+               data-bs-toggle="modal"
+               data-bs-target="#exampleModal">Удалить</button>
+
+        <!-- Модальное окно -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Вы уверены что хотите удалить</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                    <a href="/admin/{{ article.id }}/del" class="btn btn-danger">Удалить</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
     </form>
-</div>
 
 <div class="container">
     <hr>
@@ -32,6 +52,7 @@
                     <tr>
                       <th scope="col">Трек Номер</th>
                       <th scope="col">Пункт</th>
+                      <th scope="col">Название товара</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -39,9 +60,13 @@
                         <tr>
                           <td>{{ el.trackcode }}</td>
                           <td>{{ el.point }}</td>
+                          {% if el.item_name != none %}
+                          <td>{{ el.item_name }}</td>
+                          {% endif %}
                         </tr>
                     {% endfor %}
                   </tbody>
             </table>
         </div>
 {% endblock %}
+</div>>

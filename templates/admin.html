@@ -1,18 +1,72 @@
-{% extends 'base.html' %}
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}" />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+      <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+        <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+        <span class="fs-4">Нурхат черт</span>
+      </a>
 
-{% block title %}Admin Page{% endblock %}
-
-
-{% block body %}
+      <ul class="nav nav-pills">
+        <li class="nav-item"><a href="/" class="{% if request.endpoint=='index'%} nav-link active {% else %} nav-link {% endif %}" aria-current="page">Пойск</a></li>
+        <li class="nav-item"><a href="/create" class="{% if request.endpoint=='create'%} nav-link active {% else %} nav-link {% endif %}">Создать</a></li>
+        <li class="nav-item"><a href="/admin" class="{% if request.endpoint=='admin'%} nav-link active {% else %} nav-link {% endif %}">База</a></li>
+      </ul>
+    </header>
+  </div>
     <div class="container">
-        <h1>База трек-кодов</h1>
-        {% for el in articles %}
-            <div class="alert alert-info">
-                <h2>{{ el.title }}</h2>
-                <p>{{ el.point }}</p>
-                <p><b>Дата: {{el.date.date()}}</b></p>
-                <a href="/admin/{{el.id}}" class="btn btn-warning">Открыть</a>
-            </div>
-        {% endfor %}
+    {% for el in articles %}
+<!--    <div class="container d-flex justify-content-center">-->
+
+		<ul class="list-group mt-5 text-white" style="margin-top: 1rem!important">
+		  <li class="list-group-item d-flex justify-content-between align-content-center" style="background-color: #F5F5F5">
+
+		  	<div class="d-flex flex-row">
+		  		<img src="https://img.icons8.com/color/100/000000/folder-invoices.png" width="40" />
+		  		<div class="ml-2">
+		  			<h6 class="mb-0">{{ el.title }}</h6>
+		  			<div class="about">
+		  				<span>{{el.date.date()}}</span>
+		  			</div>
+		  		</div>
+		  	</div>
+		  	<div class="check">
+
+		  		<a href="/admin/{{el.id}}/point_change" class="btn btn-warning">Открыть</a>
+		  	</div>
+
+		  </li>
+        </ul>
+    {% endfor %}
     </div>
-{% endblock %}
+</body>
+</html>
+
+
+
+<!--    <div class="container">-->
+<!--        <h1>База трек-кодов</h1>-->
+<!--        {% for el in articles %}-->
+<!--            <div class="alert alert-info">-->
+<!--                <h2>{{ el.title }}</h2>-->
+<!--                <p>{{ el.point }}</p>-->
+<!--                <p><b>Дата: {{el.date.date()}}</b></p>-->
+<!--                <a href="/admin/{{el.id}}" class="btn btn-warning">Открыть</a>-->
+<!--            </div>-->
+<!--        {% endfor %}-->
+<!--    </div>-->
