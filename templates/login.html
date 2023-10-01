@@ -7,6 +7,11 @@
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='util.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}" />
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,700;1,900&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 <!--===============================================================================================-->
 </head>
 <body>
@@ -15,7 +20,7 @@
 		<div class="container-login100">
 			<div class="wrap-login100">
 				<form class="login100-form validate-form" method="POST">
-					<span class="login100-form-title p-b-26">
+					<span class="login100-form-title p-b-26" style="font-family: 'Poppins', sans-serif;">
 						Welcome
 					</span>
 					<span class="login100-form-title p-b-48">
@@ -24,7 +29,7 @@
 
 					<div class="wrap-input100 validate-input">
 						<input class="input100" type="text" name="username" required>
-						<span class="focus-input100" data-placeholder="Login"></span>
+						<span class="focus-input100" data-placeholder="Login" style="font-family: 'Poppins', sans-serif;"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="Enter password">
@@ -44,15 +49,7 @@
 						</div>
 					</div>
 
-					<div class="text-center p-t-115">
-						<span class="txt1">
-							Don’t have an account?
-						</span>
 
-						<a class="txt2" href="#">
-							Sign Up
-						</a>
-					</div>
 				</form>
 			</div>
 		</div>
