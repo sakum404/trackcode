@@ -21,10 +21,12 @@
     .blog-header-logo {
     font-family: 'Poppins', sans-serif;
     font-size: 2.25rem;
+    font-weight: bold;
     }
 </style>
 <body>
-  <div class="container">
+<div style="background-color: #f6f6f9;">
+  <div class="container" style="box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15); background-color: #ffffff;">
     <header class="blog-header py-3">
         <div class="row flex-nowrap justify-content-between align-items-center">
           <div class="col-4 text-center">
@@ -36,66 +38,67 @@
         </div>
       </header>
   </div>
-    <div class="s130" >
-        <form method="POST" >
-            <div class="inner-form">
-                <div class="input-field first-wrap">
-                    <div class="svg-wrapper">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
-                        </svg>
-                    </div>
-                    <input type="text" placeholder="Введите трек-код" value="{{ query }}" name="query">
-                </div>
-                <div class="input-field second-wrap">
-                    <button type="submit" class="btn-search" type="button">ИСКАТЬ</button>
-                </div>
-            </div>
-            <span class="info">к примеру: 1234567890</span>
-        </form>
-        {% if results %}
-            {% for item in results %}
-                <div class="container" style="margin-top: 2rem">
-                    <div class="card" style="box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ item.trackcode }}</h5>
-                            <h6 class="card-title" style="margin-bottom: 1rem">Название товара: {{ item.item_name }}</h6>
-                            <ul class="list-group">
-                                {% if item.point == "Китай" %}
-                                    <li class="list-group-item list-group-item-success"><i class="fa fa-map-marker" style="font-size:20px;"></i>  Получено на складе Китае</li>
-                                    <li class="list-group-item list-group-item-danger"><i class="fa fa-map-marker" style="font-size:20px;"></i>   Получено на складе Алматы</li>
-                                    <li class="list-group-item list-group-item-danger"><i class="fa fa-map-marker" style="font-size:20px;"></i>   Получено на складе Атырау</li>
-                                {% endif %}
-                                {% if item.point  == "Алматы" %}
-                                    <li class="list-group-item list-group-item-success"><i class="fa fa-map-marker" style="font-size:20px;"></i>   Получено на складе Китае</li>
-                                    <li class="list-group-item list-group-item-success"><i class="fa fa-map-marker" style="font-size:20px;"></i>   Получено на складе Алматы</li>
-                                    <li class="list-group-item list-group-item-danger"><i class="fa fa-map-marker" style="font-size:20px;"></i>   Получено на складе Атырау</li>
-                                {% endif %}
-                                {% if item.point  == "Атырау" %}
-                                    <li class="list-group-item list-group-item-success"><i class="fa fa-map-marker" style="font-size:20px;"></i>   Получено на складе Китае</li>
-                                    <li class="list-group-item list-group-item-success"><i class="fa fa-map-marker" style="font-size:20px;"></i>   Получено на складе Алматы</li>
-                                    <li class="list-group-item list-group-item-success"><i class="fa fa-map-marker" style="font-size:20px;"></i>   Получено на складе Атырау</li>
-                                {% endif %}
-                            </ul>
-                        </div>
-                        {% if item.item_name is none %}
-                            <div class="card-footer">
-                                <form method="POST" action="{{ url_for('item_name') }}" style="padding-top: 0vh">
-                                    <div class="input-group mb-3">
-                                        <input type="hidden" name="trackcode" value="{{ item.trackcode }}">
-                                        <input type="text" name="item_name" class="form-control" placeholder="введите название товара" aria-label="введите название товара" aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-outline-secondary" type="submit">Сохранить</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        {% endif %}
-                    </div>
-                </div>
-            {% endfor %}
-        {% endif %}
-    </div>
+  <div class="s130">
+      <form method="POST" >
+          <div class="inner-form">
+              <div class="input-field first-wrap">
+                  <div class="svg-wrapper">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                          <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                      </svg>
+                  </div>
+                  <input type="text" placeholder="Введите трек-код" value="{{ query }}" name="query">
+              </div>
+              <div class="input-field second-wrap">
+                  <button type="submit" class="btn-search" type="button">ИСКАТЬ</button>
+              </div>
+          </div>
+          <span class="info">к примеру: 1234567890</span>
+      </form>
+      {% if results %}
+      {% for item in results %}
+      <div class="container" style="margin-top: 2rem">
+          <div class="card" style="box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);">
+              <div class="card-body">
+                  <h5 class="card-title">{{ item.trackcode }}</h5>
+                  <h6 class="card-title" style="margin-bottom: 1rem">Название товара: {{ item.item_name }}</h6>
+                  <ul class="list-group">
+                      {% if item.point == "Китай" %}
+                      <li class="list-group-item list-group-item-success"><i class="fa fa-map-marker" style="font-size:20px;"></i>  Получено на складе Китае</li>
+                      <li class="list-group-item list-group-item-danger"><i class="fa fa-map-marker" style="font-size:20px;"></i>   Получено на складе Алматы</li>
+                      <li class="list-group-item list-group-item-danger"><i class="fa fa-map-marker" style="font-size:20px;"></i>   Получено на складе Атырау</li>
+                      {% endif %}
+                      {% if item.point  == "Алматы" %}
+                      <li class="list-group-item list-group-item-success"><i class="fa fa-map-marker" style="font-size:20px;"></i>   Получено на складе Китае</li>
+                      <li class="list-group-item list-group-item-success"><i class="fa fa-map-marker" style="font-size:20px;"></i>   Получено на складе Алматы</li>
+                      <li class="list-group-item list-group-item-danger"><i class="fa fa-map-marker" style="font-size:20px;"></i>   Получено на складе Атырау</li>
+                      {% endif %}
+                      {% if item.point  == "Атырау" %}
+                      <li class="list-group-item list-group-item-success"><i class="fa fa-map-marker" style="font-size:20px;"></i>   Получено на складе Китае</li>
+                      <li class="list-group-item list-group-item-success"><i class="fa fa-map-marker" style="font-size:20px;"></i>   Получено на складе Алматы</li>
+                      <li class="list-group-item list-group-item-success"><i class="fa fa-map-marker" style="font-size:20px;"></i>   Получено на складе Атырау</li>
+                      {% endif %}
+                  </ul>
+              </div>
+              {% if item.item_name is none %}
+              <div class="card-footer">
+                  <form method="POST" action="{{ url_for('item_name') }}" style="padding-top: 0vh">
+                      <div class="input-group mb-3">
+                          <input type="hidden" name="trackcode" value="{{ item.trackcode }}">
+                          <input type="text" name="item_name" class="form-control" placeholder="введите название товара" aria-label="введите название товара" aria-describedby="basic-addon2">
+                          <div class="input-group-append">
+                              <button class="btn btn-outline-secondary" type="submit">Сохранить</button>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+              {% endif %}
+          </div>
+      </div>
+      {% endfor %}
+      {% endif %}
+  </div>
     <script src="js/extention/choices.js"></script>
+</div>
 </body>
 </html>
