@@ -894,7 +894,7 @@ button {
   display: flex;
   -ms-flex-align: center;
       align-items: center;
-  background: #d9f1e3;
+  background: #f1f1f1;
 }
 
 .s130 form .inner-form .input-field.first-wrap input {
@@ -932,7 +932,7 @@ button {
   cursor: pointer;
   position: relative;
   z-index: 0;
-  background: #00ad5f;
+  background: #83a8ff;
   transition: all .2s ease-out, color .2s ease-out;
   font-weight: 300;
 }
