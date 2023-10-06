@@ -88,14 +88,21 @@ def logout():
 @app.route('/', methods=['GET', 'POST'])
 def search():
     if request.method == 'POST':
-        # Получите значение, введенное пользователем в поле ввода поиска
-        query = request.form['query']
+        # Извлеките запрос пользователя из данных формы
+        query = request.form['query'].strip()  # Уберите начальные и конечные пробелы
 
-        # Выполните поиск в базе данных
-        # results = [item for item in piar if query.lower() in item.trackcode.lower()]
-        results = db.session.query(Piar).filter(Piar.trackcode.ilike(f'%{query}%')).all()
+        if query:
+            results = db.session.query(Piar).filter(Piar.trackcode == query).all()
+
+
+        else:
+            # Если запрос пуст, верните пустой список результатов
+            results = []
+
+        # Передайте результаты поиска и историю поиска в шаблон
         return render_template('index.html', results=results, query=query)
 
+    # Если это GET-запрос, просто отобразите страницу поиска
     return render_template('index.html', results=None)
 
 
