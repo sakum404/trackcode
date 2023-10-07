@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash
 from werkzeug.utils import secure_filename
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -7,9 +7,10 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-from flask_caching import Cache
+import os
+from os.path import join, dirname, realpath
 import pandas as pd
-
+import openpyxl
 
 flask_sqlalchemy = SQLAlchemy
 
@@ -17,7 +18,6 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = '1245678@22'
-cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
 db = SQLAlchemy(app)
 engine = create_engine('sqlite:///database.db', echo=True)
@@ -33,7 +33,6 @@ data = pd.read_excel('orders.xlsx')
 
 login_manager = LoginManager()
 login_manager.login_view = 'login'  # Указываем функцию, которая обрабатывает вход пользователя
-
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -85,26 +84,19 @@ def logout():
 
 
 
+
 @app.route('/', methods=['GET', 'POST'])
 def search():
     if request.method == 'POST':
-        # Извлеките запрос пользователя из данных формы
-        query = request.form['query'].strip()  # Уберите начальные и конечные пробелы
+        # Получите значение, введенное пользователем в поле ввода поиска
+        query = request.form['query']
 
-        if query:
-            results = db.session.query(Piar).filter(Piar.trackcode == query).all()
-
-
-        else:
-            # Если запрос пуст, верните пустой список результатов
-            results = []
-
-        # Передайте результаты поиска и историю поиска в шаблон
+        # Выполните поиск в базе данных
+        # results = [item for item in piar if query.lower() in item.trackcode.lower()]
+        results = db.session.query(Piar).filter(Piar.trackcode.ilike(f'%{query}%')).all()
         return render_template('index.html', results=results, query=query)
 
-    # Если это GET-запрос, просто отобразите страницу поиска
     return render_template('index.html', results=None)
-
 
 
 @app.route('/item_name', methods=['GET', 'POST'])
@@ -233,4 +225,4 @@ def post_delete(id):
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='192.168.0.18')
+    app.run(debug=True)
