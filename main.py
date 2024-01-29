@@ -29,7 +29,7 @@ UPLOAD_FOLDER = 'static/files'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
-data = pd.read_excel('orders.xlsx')
+# data = pd.read_excel('orders.xlsx')
 
 login_manager = LoginManager()
 login_manager.login_view = 'login'  # Указываем функцию, которая обрабатывает вход пользователя
@@ -143,21 +143,14 @@ def update(id):
     if request.method == 'POST':
         try:
             file = request.files['trackcode']  # Получаем файл XLSX из формы
+            file = request.files['trackcode']  # Получаем файл XLSX из формы
             if file:
-                # Читаем данные из файла XLSX
-                data = pd.read_excel(file)
+                # Читаем данные из файла XLSX, включая A1
+                data = pd.read_excel(file, header=None, names=['A'])
 
-                # Определите начальную ячейку столбца, например, 'A2'
-                start_column = 'B6'
-
-                # Фильтруем столбцы, начиная с определенной ячейки
-                data = data.loc[:, data.columns >= start_column]
-
-                # Перебираем строки в данных и обновляем таблицу в базе данных
-                for index, row in data.iterrows():
-                    trackcode = row.iloc[0]  # Получаем значение из первого столбца (колонка начинается с start_column)
-
-                    # Проверяем, что значение в ячейке не является пустым
+                # Перебираем значения в столбце "A"
+                for trackcode in data['A']:
+                    # Проверяем, что значение не является пустым
                     if not pd.isnull(trackcode):
                         point = request.form['point']
                         piar = Piar(trackcode=trackcode, point=point, article_id=id)
@@ -232,4 +225,4 @@ def post_delete(id):
 
 
 if __name__ == '__main__':
-    app.run(host='185.125.91.190', port=80)
+    app.run(debug=True)
